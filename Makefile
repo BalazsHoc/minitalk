@@ -10,27 +10,29 @@
 #                                                                              #
 # **************************************************************************** #
 
+SERVER = server
+CLIENT = client
+
+CFLAGS = -Wall -Werror -Wextra
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
 
-SOURCES =	\
+OSERVER = $(server.c=server.o)
+OCLIENT = $(client.c=server.o)
 
-OBJECTS = $(SOURCES:.c=.o)
-NAME = libft.a
+all: $(SERVER) $(CLIENT) $(OSERVER) $(OCLIENT)
 
-all: $(NAME)
+server.o: server.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME): $(OBJECTS)
-	 ar rcs $(NAME) $(OBJECTS)
-
-%.o: %.c
+client.o: client.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJECTS)
-	
+	rm -f server.o
+	rm -f client.o
+
 fclean: clean
-	rm -f $(NAME)
+	rm -f $(SERVER) $(CLIENT)
 
 re: all
 
