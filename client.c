@@ -3,18 +3,45 @@
 #include <signal.h>
 #include <stdlib.h>
 
-void	*f(int pid)
+void	*send_bit(int pid, char *str)
 {
 	void	*d;
+	int		i;
+	int		j;
+	char	c;
 
 	d = 0;
-	kill(pid, SIGUSR1);
+	j = 0;
+	while (str[j])
+	{
+		i = 8;
+		c = str[j];
+		printf(" c: %c\n", c);
+		while (i--)
+		{
+			if (c >> i & 1)
+			{
+				printf("1");
+				kill(pid, SIGUSR1);
+			}
+			else
+			{
+				printf("0");
+				kill(pid, SIGUSR2);
+			}
+			usleep(42);
+		}
+		printf("\n");
+		j++;
+	}
 	return (void *)(d);
 }
 
 int main(int argc, char **argv)
 {
-	if (argc == 2)
-		signal(SIGUSR1, f(atoi(argv[1])));
+	if (argc == 3)
+	{
+		send_bit(atoi(argv[1]), argv[2]);
+	}
  	return (0);
 }
