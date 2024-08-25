@@ -16,22 +16,14 @@ void	*send_bit(int pid, char *str)
 	{
 		i = 8;
 		c = str[j];
-		printf(" c: %c\n", c);
 		while (i--)
 		{
 			if (c >> i & 1)
-			{
-				printf("1");
 				kill(pid, SIGUSR1);
-			}
 			else
-			{
-				printf("0");
 				kill(pid, SIGUSR2);
-			}
 			usleep(42);
 		}
-		printf("\n");
 		j++;
 	}
 	return (void *)(d);
