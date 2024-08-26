@@ -2,11 +2,11 @@
 #include <unistd.h>
 #include <signal.h>
 
-unsigned char	c;
-
 void	get_bit(int sig)
 {
-	static int		i;
+	static int				i;
+	static unsigned char	c;
+
 
 	if (!i)
 		i = 8;
@@ -24,6 +24,7 @@ void	get_bit(int sig)
 
 int	main()
 {
+	//struct sigaction	sa; // I can get the senders pid
 	printf("\nPID: %d\n", getpid());
 	signal(SIGUSR1, get_bit);
 	signal(SIGUSR2, get_bit);
