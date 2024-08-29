@@ -1,3 +1,5 @@
+#include "libft/libft.h"
+#include "ft_printf/ft_printf.h"
 #include <stdio.h>
 #include <unistd.h>
 #include <signal.h>
@@ -25,7 +27,7 @@ void	get_bit(int sig)
 int	main()
 {
 	//struct sigaction	sa; // I can get the senders pid
-	printf("\nPID: %d\n", getpid());
+	ft_printf("\nPID: %d\n", getpid());
 	signal(SIGUSR1, get_bit);
 	signal(SIGUSR2, get_bit);
 	while (1)

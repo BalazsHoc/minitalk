@@ -10,28 +10,43 @@
 #                                                                              #
 # **************************************************************************** #
 
+LIBFT = libft/libft.a
+FT_PRINTF = ft_printf/libftprintf.a
+
 SERVER = server
 CLIENT = client
 
 CFLAGS = -Wall -Werror -Wextra
 CC = cc
 
-OSERVER = $(server.c=server.o)
-OCLIENT = $(client.c=server.o)
+SRCS_SERVER = server.c
+SRCS_CLIENT = client.c
 
-all: $(SERVER) $(CLIENT) $(OSERVER) $(OCLIENT)
+O_SERVER = $(SRCS_SERVER:.c=.o)
+O_CLIENT = $(SRCS_CLIENT:.c=.o)
 
-server.o: server.c
-	$(CC) $(CFLAGS) -c $< -o $@
+all: $(LIBFT) $(FT_PRINTF) $(SERVER) $(CLIENT)
 
-client.o: client.c
-	$(CC) $(CFLAGS) -c $< -o $@
+$(SERVER): $(O_SERVER) $(LIBFT) $(FT_PRINTF)
+	@$(CC) $(O_SERVER) $(LIBFT) $(FT_PRINTF) -o $(SERVER)
+
+$(CLIENT): $(O_CLIENT) $(LIBFT) $(FT_PRINTF)
+	@$(CC) $(O_CLIENT) $(LIBFT) $(FT_PRINTF) -o $(CLIENT)
+
+$(LIBFT):
+	@$(MAKE) -C ./libft
+
+$(FT_PRINTF):
+	@$(MAKE) -C ./ft_printf
 
 clean:
-	rm -f server.o
-	rm -f client.o
+	@$(MAKE) clean -C ./libft
+	@$(MAKE) clean -C ./ft_printf
+	rm -f $(O_SERVER) $(O_CLIENT)
 
 fclean: clean
+	@$(MAKE) fclean -C ./libft
+	@$(MAKE) fclean -C ./ft_printf
 	rm -f $(SERVER) $(CLIENT)
 
 re: all

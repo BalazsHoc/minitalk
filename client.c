@@ -1,3 +1,5 @@
+#include "libft/libft.h"
+#include "ft_printf/ft_printf.h"
 #include <stdio.h>
 #include <unistd.h>
 #include <signal.h>
@@ -33,7 +35,7 @@ int main(int argc, char **argv)
 {
 	if (argc == 3)
 	{
-		send_bit(atoi(argv[1]), argv[2]);
+		send_bit(ft_atoi(argv[1]), argv[2]);
 	}
  	return (0);
 }

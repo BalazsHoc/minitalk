@@ -27,7 +27,7 @@ unsigned int	uintlen(unsigned int n)
 	return (digits);
 }
 
-char	*uitoa(unsigned int n)
+static char	*uitoa(unsigned int n)
 {
 	char			*result;
 	unsigned int	digits;
