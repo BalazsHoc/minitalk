@@ -4,11 +4,12 @@
 #include <unistd.h>
 #include <signal.h>
 
-void	get_bit(int sig)
+void	get_bit(int sig, siginfo_t	*siginfo, void *context)
 {
 	static int				i;
 	static unsigned char	c;
 
+	if (context)
 
 	if (!i)
 		i = 8;
@@ -21,15 +22,24 @@ void	get_bit(int sig)
 		if (i == 1)
 			write(1, &c, 1);
 		i--;
+		kill(siginfo->si_pid, SIGUSR1);
 	}
+}
+
+void	handler_server()
+{
+	struct sigaction	sa;
+	sa.sa_sigaction = get_bit;
+	sa.sa_flags = SA_SIGINFO;
+	sigemptyset(&sa.sa_mask);
+	sigaction(SIGUSR1, &sa, NULL);
+	sigaction(SIGUSR2, &sa, NULL);
 }
 
 int	main()
 {
-	//struct sigaction	sa; // I can get the senders pid
 	ft_printf("\nPID: %d\n", getpid());
-	signal(SIGUSR1, get_bit);
-	signal(SIGUSR2, get_bit);
+	handler_server();
 	while (1)
 		pause();
 	return (0);

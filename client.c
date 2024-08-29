@@ -5,37 +5,48 @@
 #include <signal.h>
 #include <stdlib.h>
 
-void	*send_bit(int pid, char *str)
-{
-	void	*d;
-	int		i;
-	int		j;
-	char	c;
+int	pid;
 
-	d = 0;
-	j = 0;
-	while (str[j])
+void sig_handler(int sig)
+{
+	int	a;
+
+	a = sig;
+	sig = a;
+}
+
+void	send_bit(char c)
+{
+	static int		i;
+
+	i = 7;
+	while (i >= 0)
 	{
-		i = 8;
-		c = str[j];
-		while (i--)
-		{
-			if (c >> i & 1)
-				kill(pid, SIGUSR1);
-			else
-				kill(pid, SIGUSR2);
-			usleep(42);
-		}
-		j++;
+		if ((c >> i) & 1)
+			kill(pid, SIGUSR1);
+		else
+			kill(pid, SIGUSR2);
+		pause();
+		i--;
 	}
-	return (void *)(d);
+}
+
+void handlear_client(char *str)
+{
+	while (*str)
+	{
+		send_bit(*str);
+		str++;
+	}
 }
 
 int main(int argc, char **argv)
 {
-	if (argc == 3)
-	{
-		send_bit(ft_atoi(argv[1]), argv[2]);
-	}
+
+	if (argc != 3)
+		return (1);
+	pid = ft_atoi(argv[1]);
+	signal(SIGUSR1, sig_handler);
+	handlear_client(argv[2]);
  	return (0);
 }

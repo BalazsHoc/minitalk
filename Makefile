@@ -28,10 +28,10 @@ O_CLIENT = $(SRCS_CLIENT:.c=.o)
 all: $(LIBFT) $(FT_PRINTF) $(SERVER) $(CLIENT)
 
 $(SERVER): $(O_SERVER) $(LIBFT) $(FT_PRINTF)
-	@$(CC) $(O_SERVER) $(LIBFT) $(FT_PRINTF) -o $(SERVER)
+	@$(CC) $(CFLAGS) $(O_SERVER) $(LIBFT) $(FT_PRINTF) -o $(SERVER)
 
 $(CLIENT): $(O_CLIENT) $(LIBFT) $(FT_PRINTF)
-	@$(CC) $(O_CLIENT) $(LIBFT) $(FT_PRINTF) -o $(CLIENT)
+	@$(CC) $(CFLAGS) $(O_CLIENT) $(LIBFT) $(FT_PRINTF) -o $(CLIENT)
 
 $(LIBFT):
 	@$(MAKE) -C ./libft
@@ -42,12 +42,12 @@ $(FT_PRINTF):
 clean:
 	@$(MAKE) clean -C ./libft
 	@$(MAKE) clean -C ./ft_printf
-	rm -f $(O_SERVER) $(O_CLIENT)
+	@rm -f $(O_SERVER) $(O_CLIENT)
 
 fclean: clean
 	@$(MAKE) fclean -C ./libft
 	@$(MAKE) fclean -C ./ft_printf
-	rm -f $(SERVER) $(CLIENT)
+	@rm -f $(SERVER) $(CLIENT)
 
 re: all
 
