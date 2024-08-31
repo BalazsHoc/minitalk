@@ -10,47 +10,45 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
-#include "ft_printf/ft_printf.h"
-#include <stdio.h>
-#include <unistd.h>
-#include <signal.h>
-#include <stdlib.h>
+#include "client.h"
 
-int	pid;
+data	*client_data;
 
-void	sig_handler(int sig)
+int	sig_handler(int sig)
 {
-	int	a;
-
-	a = sig;
-	sig = a;
+	if (sig == SIGUSR1)
+		client_data->got_signal = 1;
+	return (client_data->got_signal);
 }
 
 void	send_bit(char c)
 {
-	static int		i;
+	int		i;
 
 	i = 7;
 	while (i >= 0)
 	{
 		if ((c >> i) & 1)
 		{
-			if (kill(pid, SIGUSR1) == -1)
+			if (kill(client_data->server_pid, SIGUSR1) == -1)
 			{
 				write(2, "Error, signal could not be sent.\n", 34);
-				exit(2);
+				free(client_data);
+				exit(3);
 			}
 		}
 		else
 		{
-			if (kill(pid, SIGUSR2) == -1)
+			if (kill(client_data->server_pid, SIGUSR2) == -1)
 			{
 				write(2, "Error, signal could not be sent.\n", 34);
-				exit(2);
+				free(client_data);
+				exit(3);
 			}
 		}
-		pause();
+		while (!client_data->got_signal)
+			pause();
+		client_data->got_signal = 0;
 		i--;
 	}
 }
@@ -78,8 +76,12 @@ int	main(int argc, char **argv)
 		i++;
 	if (argv[1][i] && !ft_isdigit(argv[1][i]))
 		exit(ft_printf("Invalid PID\n"));
-	pid = ft_atoi(argv[1]);
-	signal(SIGUSR1, sig_handler);
+	client_data = malloc(sizeof(data));
+	if (!client_data)
+		return(write(2, "Error, memory allocation\n", 25), 2);
+	client_data->server_pid = ft_atoi(argv[1]);
+	client_data->got_signal = 0;
+	signal(SIGUSR1, (void *)sig_handler);
 	handlear_client(argv[2]);
 	handlear_client("\n");
 	return (0);

@@ -10,11 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
-#include "ft_printf/ft_printf.h"
-#include <stdio.h>
-#include <unistd.h>
-#include <signal.h>
+#include "server.h"
+
+data	*server_data;
 
 void	get_bit(int sig, siginfo_t	*siginfo, void *context)
 {
@@ -27,12 +25,22 @@ void	get_bit(int sig, siginfo_t	*siginfo, void *context)
 	if (i)
 	{
 		if (sig == SIGUSR1)
+		{
+			ft_printf("1");
 			c = c * 2 + 1;
+		}
 		else if (sig == SIGUSR2)
+		{
+			ft_printf("0");
 			c = c * 2 + 0;
-		if (i == 1)
-			write(1, &c, 1);
+		}
 		i--;
+		if (i == 0)
+		{
+			write(1, &c, 1);
+			ft_printf("\n");
+			c = 0;
+		}
 		kill(siginfo->si_pid, SIGUSR1);
 	}
 }
@@ -50,7 +58,13 @@ void	handler_server()
 
 int	main()
 {
-	ft_printf("\nPID: %d\n", getpid());
+	server_data = malloc(sizeof(data));
+	if (!server_data)
+		return (write(2, "Memory allocation error\n", 25), 1);
+	// server_data->message = malloc(sizeof(char) * 1024);
+	// if (!server_data->message)
+	// 	return (write(2, "Memory allocation error\n", 25), 2);
+	ft_printf("PID: %d\n", getpid());
 	handler_server();
 	while (1)
 		pause();
