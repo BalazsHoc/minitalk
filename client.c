@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bhocsak <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/31 12:11:05 by bhocsak           #+#    #+#             */
+/*   Updated: 2024/08/31 12:11:08 by bhocsak          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft/libft.h"
 #include "ft_printf/ft_printf.h"
 #include <stdio.h>
@@ -7,7 +19,7 @@
 
 int	pid;
 
-void sig_handler(int sig)
+void	sig_handler(int sig)
 {
 	int	a;
 
@@ -23,15 +35,27 @@ void	send_bit(char c)
 	while (i >= 0)
 	{
 		if ((c >> i) & 1)
-			kill(pid, SIGUSR1);
+		{
+			if (kill(pid, SIGUSR1) == -1)
+			{
+				write(2, "Error, signal could not be sent.\n", 34);
+				exit(2);
+			}
+		}
 		else
-			kill(pid, SIGUSR2);
+		{
+			if (kill(pid, SIGUSR2) == -1)
+			{
+				write(2, "Error, signal could not be sent.\n", 34);
+				exit(2);
+			}
+		}
 		pause();
 		i--;
 	}
 }
 
-void handlear_client(char *str)
+void	handlear_client(char *str)
 {
 	while (*str)
 	{
@@ -40,13 +64,23 @@ void handlear_client(char *str)
 	}
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
+	int	i;
 
+	i = 0;
 	if (argc != 3)
-		return (1);
+	{
+		ft_printf("Please type a PID and a message!\n");
+		exit(1);
+	}
+	while (ft_isdigit(argv[1][i]))
+		i++;
+	if (argv[1][i] && !ft_isdigit(argv[1][i]))
+		exit(ft_printf("Invalid PID\n"));
 	pid = ft_atoi(argv[1]);
 	signal(SIGUSR1, sig_handler);
 	handlear_client(argv[2]);
- 	return (0);
+	handlear_client("\n");
+	return (0);
 }

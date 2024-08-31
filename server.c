@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   server.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bhocsak <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/31 12:11:17 by bhocsak           #+#    #+#             */
+/*   Updated: 2024/08/31 12:11:23 by bhocsak          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft/libft.h"
 #include "ft_printf/ft_printf.h"
 #include <stdio.h>
@@ -9,8 +21,7 @@ void	get_bit(int sig, siginfo_t	*siginfo, void *context)
 	static int				i;
 	static unsigned char	c;
 
-	if (context)
-
+	(void)context;
 	if (!i)
 		i = 8;
 	if (i)
@@ -29,6 +40,7 @@ void	get_bit(int sig, siginfo_t	*siginfo, void *context)
 void	handler_server()
 {
 	struct sigaction	sa;
+
 	sa.sa_sigaction = get_bit;
 	sa.sa_flags = SA_SIGINFO;
 	sigemptyset(&sa.sa_mask);
