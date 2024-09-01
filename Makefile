@@ -16,7 +16,7 @@ FT_PRINTF = ft_printf/libftprintf.a
 SERVER = server
 CLIENT = client
 
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -g
 CC = cc
 
 SRCS_SERVER = server.c

@@ -13,19 +13,23 @@
 #ifndef SERVER_H
 # define SERVER_H
 
-#include "libft/libft.h"
-#include "ft_printf/ft_printf.h"
-#include <stdio.h>
-#include <unistd.h>
-#include <signal.h>
+# include "libft/libft.h"
+# include "ft_printf/ft_printf.h"
+# include <stdio.h>
+# include <unistd.h>
+# include <signal.h>
 
-typedef struct	global_data
+typedef struct global_data
 {
-	int		client_pid;
+	int		c_pid;
 	char	*message;
-}	data;
+	int		n_char;
+	int		buffer_size;
+	int		buf_rs;
+}	t_server;
 
 void	get_bit(int sig, siginfo_t	*siginfo, void *context);
 void	handler_server();
+void	buffer_making();
 
 #endif

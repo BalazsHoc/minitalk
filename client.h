@@ -13,18 +13,18 @@
 #ifndef CLIENT_H
 # define CLIENT_H
 
-#include "libft/libft.h"
-#include "ft_printf/ft_printf.h"
-#include <stdio.h>
-#include <unistd.h>
-#include <signal.h>
-#include <stdlib.h>
+# include "libft/libft.h"
+# include "ft_printf/ft_printf.h"
+# include <stdio.h>
+# include <unistd.h>
+# include <signal.h>
+# include <stdlib.h>
 
 typedef struct global_data
 {
 	int		server_pid;
 	bool	got_signal;
-}	data;
+}	t_client;
 
 int		sig_handler(int sig);
 void	send_bit(char c);
