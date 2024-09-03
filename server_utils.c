@@ -12,48 +12,47 @@
 
 #include "server.h"
 
-t_server	*g_servers;
+struct s_data_s	g_server;
 
 void	whole_text_done(void)
 {
 	int	i;
 
 	i = 0;
-	g_servers->message[g_servers->n_char] = '\0';
-	ft_printf("%s\n", g_servers->message);
-	if (g_servers->message)
+	g_server.message[g_server.n_char] = '\0';
+	ft_printf("%s\n", g_server.message);
+	if (g_server.message)
 	{
-		free(g_servers->message);
-		g_servers->message = NULL;
+		free(g_server.message);
+		g_server.message = NULL;
 	}
-	g_servers->n_char = -1;
-	g_servers->buf_rs = 0;
+	g_server.n_char = -1;
+	g_server.buf_rs = 0;
 }
 
 void	buffer_making(void)
 {
 	char	*temp;
 
-	if (!g_servers->message
-		|| g_servers->n_char == g_servers->buf_rs * g_servers->buffer_size)
+	if (!g_server.message
+		|| g_server.n_char == g_server.buf_rs * g_server.buffer_size)
 	{
-		g_servers->buf_rs += 1;
-		temp = malloc(sizeof(char) * ((g_servers->buf_rs
-						* g_servers->buffer_size) + 1));
+		g_server.buf_rs += 1;
+		temp = malloc(sizeof(char) * ((g_server.buf_rs
+						* g_server.buffer_size) + 1));
 		if (!temp)
 		{
-			if (g_servers->message)
-				free(g_servers->message);
-			free(g_servers);
+			if (g_server.message)
+				free(g_server.message);
 			write(2, "Memory allocation error\n", 25);
 			exit(1);
 		}
-		if (g_servers->message)
+		if (g_server.message)
 		{
-			mt_strlcpy(temp, g_servers->message, g_servers->n_char);
-			free(g_servers->message);
+			mt_strlcpy(temp, g_server.message, g_server.n_char);
+			free(g_server.message);
 		}
-		g_servers->message = temp;
+		g_server.message = temp;
 	}
 }
 
@@ -77,8 +76,8 @@ void	get_bit(int sig, siginfo_t	*siginfo, void *context)
 			if (c == '\0')
 				whole_text_done();
 			else
-				g_servers->message[g_servers->n_char] = c;
-			g_servers->n_char += 1;
+				g_server.message[g_server.n_char] = c;
+			g_server.n_char += 1;
 			buffer_making();
 			c = 0;
 		}
@@ -90,16 +89,10 @@ void	handler_server(void)
 {
 	struct sigaction	s_usr;
 
-	g_servers = malloc(sizeof(t_server));
-	if (!g_servers)
-	{
-		write(2, "Memory allocation error\n", 25);
-		exit(1);
-	}
-	g_servers->n_char = 0;
-	g_servers->buffer_size = 2;
-	g_servers->buf_rs = 0;
-	g_servers->message = NULL;
+	g_server.n_char = 0;
+	g_server.buffer_size = 128;
+	g_server.buf_rs = 0;
+	g_server.message = NULL;
 	buffer_making();
 	s_usr.sa_sigaction = get_bit;
 	s_usr.sa_flags = SA_SIGINFO;
@@ -111,12 +104,8 @@ void	handler_server(void)
 void	got_sigint(int sig)
 {
 	(void)sig;
-	if (g_servers)
-	{
-		if (g_servers->message)
-			free(g_servers->message);
-		free(g_servers);
-	}
+	if (g_server.message)
+		free(g_server.message);
 	ft_printf("\n");
 	exit(1);
 }

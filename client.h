@@ -20,11 +20,11 @@
 # include <signal.h>
 # include <stdlib.h>
 
-typedef struct global_data
+struct s_data_c
 {
 	int		server_pid;
 	bool	got_signal;
-}	t_client;
+};
 
 void	error_happend(void);
 int		sig_handler(int sig);

@@ -19,14 +19,14 @@
 # include <unistd.h>
 # include <signal.h>
 
-typedef struct global_data
+struct s_data_s
 {
 	int		c_pid;
 	char	*message;
 	int		n_char;
 	int		buffer_size;
 	int		buf_rs;
-}	t_server;
+};
 
 void	whole_text_done(void);
 void	buffer_making(void);
