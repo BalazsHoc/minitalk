@@ -14,7 +14,7 @@
 
 t_client	*g_client;
 
-void	error_happend()
+void	error_happend(void)
 {
 	write(2, "Error, signal could not be sent.\n", 34);
 	free(g_client);

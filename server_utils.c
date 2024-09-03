@@ -14,7 +14,7 @@
 
 t_server	*g_servers;
 
-void	whole_text_done()
+void	whole_text_done(void)
 {
 	int	i;
 
@@ -30,7 +30,7 @@ void	whole_text_done()
 	g_servers->buf_rs = 0;
 }
 
-void	buffer_making()
+void	buffer_making(void)
 {
 	char	*temp;
 
@@ -86,7 +86,7 @@ void	get_bit(int sig, siginfo_t	*siginfo, void *context)
 	}
 }
 
-void	handler_server()
+void	handler_server(void)
 {
 	struct sigaction	s_usr;
 

@@ -26,7 +26,7 @@ typedef struct global_data
 	bool	got_signal;
 }	t_client;
 
-void	error_happend();
+void	error_happend(void);
 int		sig_handler(int sig);
 void	send_bit(char c);
 void	handlear_client(char *str);

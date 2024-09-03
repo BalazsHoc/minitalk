@@ -25,7 +25,7 @@ char	*mt_strlcpy(char *dest, char *src, int len)
 	return (dest);
 }
 
-int	main()
+int	main(void)
 {
 	struct sigaction	s_term;
 
