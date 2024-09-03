@@ -49,6 +49,6 @@ fclean: clean
 	@$(MAKE) fclean -C ./ft_printf
 	@rm -f $(SERVER) $(CLIENT)
 
-re: all
+re: fclean all
 
 .PHONY: all clean fclean re

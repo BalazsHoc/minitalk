@@ -20,7 +20,7 @@ void	whole_text_done(void)
 
 	i = 0;
 	g_servers->message[g_servers->n_char] = '\0';
-	printf("%s\n", g_servers->message);
+	ft_printf("%s\n", g_servers->message);
 	if (g_servers->message)
 	{
 		free(g_servers->message);
