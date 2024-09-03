@@ -28,8 +28,12 @@ typedef struct global_data
 	int		buf_rs;
 }	t_server;
 
+void	whole_text_done();
+void	buffer_making();
 void	get_bit(int sig, siginfo_t	*siginfo, void *context);
 void	handler_server();
-void	buffer_making();
+void	got_sigint(int sig);
+
+char	*mt_strlcpy(char *dest, char *src, int len);
 
 #endif

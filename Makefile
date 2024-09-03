@@ -19,7 +19,7 @@ CLIENT = client
 CFLAGS = -Wall -Werror -Wextra -g
 CC = cc
 
-SRCS_SERVER = server.c
+SRCS_SERVER = server.c server_utils.c
 SRCS_CLIENT = client.c
 
 O_SERVER = $(SRCS_SERVER:.c=.o)

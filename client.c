@@ -14,6 +14,13 @@
 
 t_client	*g_client;
 
+void	error_happend()
+{
+	write(2, "Error, signal could not be sent.\n", 34);
+	free(g_client);
+	exit(3);
+}
+
 int	sig_handler(int sig)
 {
 	if (sig == SIGUSR1)
@@ -31,20 +38,12 @@ void	send_bit(char c)
 		if ((c >> i) & 1)
 		{
 			if (kill(g_client->server_pid, SIGUSR1) == -1)
-			{
-				write(2, "Error, signal could not be sent.\n", 34);
-				free(g_client);
-				exit(3);
-			}
+				error_happend();
 		}
 		else
 		{
 			if (kill(g_client->server_pid, SIGUSR2) == -1)
-			{
-				write(2, "Error, signal could not be sent.\n", 34);
-				free(g_client);
-				exit(3);
-			}
+				error_happend();
 		}
 		while (!g_client->got_signal)
 			pause();
