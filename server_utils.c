@@ -16,9 +16,6 @@ struct s_data_s	g_server;
 
 void	whole_text_done(void)
 {
-	int	i;
-
-	i = 0;
 	g_server.message[g_server.n_char] = '\0';
 	ft_printf("%s\n", g_server.message);
 	if (g_server.message)
