@@ -90,7 +90,7 @@ void	handler_server(void)
 	struct sigaction	s_usr;
 
 	g_server.n_char = 0;
-	g_server.buffer_size = 128;
+	g_server.buffer_size = 256;
 	g_server.buf_rs = 0;
 	g_server.message = NULL;
 	buffer_making();

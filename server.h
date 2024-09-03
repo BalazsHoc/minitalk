@@ -13,7 +13,6 @@
 #ifndef SERVER_H
 # define SERVER_H
 
-# include "libft/libft.h"
 # include "ft_printf/ft_printf.h"
 # include <stdio.h>
 # include <unistd.h>
@@ -21,7 +20,7 @@
 
 struct s_data_s
 {
-	int		c_pid;
+	pid_t	c_pid;
 	char	*message;
 	int		n_char;
 	int		buffer_size;

@@ -13,16 +13,16 @@
 #ifndef CLIENT_H
 # define CLIENT_H
 
-# include "libft/libft.h"
 # include "ft_printf/ft_printf.h"
 # include <stdio.h>
 # include <unistd.h>
 # include <signal.h>
 # include <stdlib.h>
+# include <stdbool.h>
 
 struct s_data_c
 {
-	int		server_pid;
+	pid_t	server_pid;
 	bool	got_signal;
 };
 
@@ -30,5 +30,8 @@ void	error_happend(void);
 int		sig_handler(int sig);
 void	send_bit(char c);
 void	handlear_client(char *str);
+
+int		mt_isdigit(int c);
+pid_t	mt_atoi(const char *nptr);
 
 #endif
