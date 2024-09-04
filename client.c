@@ -76,6 +76,8 @@ int	main(int argc, char **argv)
 	if (argv[1][i] && !mt_isdigit(argv[1][i]))
 		exit(ft_printf("Invalid PID\n"));
 	g_client.server_pid = mt_atoi(argv[1]);
+	if (g_client.server_pid <= 0)
+		exit(ft_printf("Invalid PID\n"));
 	g_client.got_signal = 0;
 	signal(SIGUSR1, (void *)sig_handler);
 	handlear_client(argv[2]);
